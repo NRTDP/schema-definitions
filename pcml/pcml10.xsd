@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified"
+  elementFormDefault="qualified" xmlns:pcml="http://www.topdownproteomics.org/ms/pcsml"
+  targetNamespace="http://www.topdownproteomics.org/ms/pcsml"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" vc:minVersion="1.1"
+  xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+  <xs:annotation>
+    <xs:documentation>Proteoform Characterization XML schema.</xs:documentation>
+  </xs:annotation>
+  <xs:complexType name="toleranceType">
+    <xs:annotation>
+      <xs:documentation>Global type declaration of the mass tolerance for the data
+        presented.</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="value" type="xs:double" use="required">
+      <xs:annotation>
+        <xs:documentation>Magnitude of a mass tolerance.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" use="required">
+      <xs:annotation>
+        <xs:documentation>Unit of the mass tolerance.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Da">
+            <xs:annotation>
+              <xs:documentation>Daltons</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ppm">
+            <xs:annotation>
+              <xs:documentation>Parts per million</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="massType">
+    <xs:annotation>
+      <xs:documentation>Global type declaration of the type of data contained within the element:
+        monoisotopic or average.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="monoisotopic">
+        <xs:annotation>
+          <xs:documentation>Monoisotopic Mass</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="average">
+        <xs:annotation>
+          <xs:documentation>Average Mass</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="terminalModification">
+    <xs:annotation>
+      <xs:documentation>Global type declaration of N or C terminal modifications.</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="modificationSourceID" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>The source ID of the modification.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="modificationID" type="xs:int" use="required">
+      <xs:annotation>
+        <xs:documentation>The identifier of the modification within the source.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:element name="pcsDataSet">
+    <xs:annotation>
+      <xs:documentation>A proteoform characterization schema instance.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="metadata">
+          <xs:annotation>
+            <xs:documentation>Metadata describe the user and other relevant experimental data.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="comment" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>A global freeform comment on the set of experiments. </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="contact">
+                <xs:annotation>
+                  <xs:documentation>Information about the user.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:annotation>
+                    <xs:documentation>
+                      The user's contact information.
+                    </xs:documentation>
+                  </xs:annotation>
+                  <xs:sequence>
+                    <xs:element name="guid">
+                      <xs:annotation>
+                        <xs:documentation>A GUID provided by the user/consortium.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:pattern
+                            value="(\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\})"
+                          />
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="name" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>The user's name.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="organization" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>The user's organization.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="address" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>The user's physical address.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="URL" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>The user's website URL.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="email" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>The user's email address.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="instrument">
+                <xs:annotation>
+                  <xs:documentation>Information about the instrument used for this analysis</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="manufacturer" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>The instrument's manufacturer.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="model" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>The instrument's model.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="precursorTolerance" type="pcml:toleranceType">
+                      <xs:annotation>
+                        <xs:documentation>The precursor tolerance of the instrument.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="fragmentTolerance" type="pcml:toleranceType">
+                      <xs:annotation>
+                        <xs:documentation>The fragment tolerance of the instrument.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="constantcalibrationOffset" type="pcml:toleranceType">
+                      <xs:annotation>
+                        <xs:documentation>The constant tolerance offset.  NB: This can be omitted if 0.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="modificationSourceList">
+                <xs:annotation>
+                  <xs:documentation>A list of modification sources (databases) PSI-Mod, UniCarb, etc.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="modificationSource">
+                      <xs:annotation>
+                        <xs:documentation>A single modification source.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:attribute name="id" type="xs:string" use="required">
+                          <xs:annotation>
+                            <xs:documentation>The ID of the modification source. (e.g., PSI-MOD)</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="url" type="xs:string" use="required">
+                          <xs:annotation>
+                            <xs:documentation>A URL for the modification with a blank for id. (e.g., http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=MOD&amp;termId=MOD:{0:00000}).</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="sampleProcessing">
+                <xs:annotation>
+                  <xs:documentation>Information related to the processing of the sample.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="fixedModificationList">
+                      <xs:annotation>
+                        <xs:documentation>A list of expected fixed modifications.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="fixedModification">
+                            <xs:annotation>
+                              <xs:documentation>A single fixed modification.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:attribute name="modificationSourceID" type="xs:string"
+                                use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The modificationSourceID of the modification source. (e.g., PSI-MOD)</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="modificationID" type="xs:int" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The numerical ID of the modification within the source. (e.g., 37)</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="aminoAcid" type="xs:string" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The single letter representation of the amino acid to be modified</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="experimentList">
+          <xs:annotation>
+            <xs:documentation>A list of individual proteomics experiments.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="experiment">
+                <xs:annotation>
+                  <xs:documentation>An individual proteomics experiment.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="comment" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>An experiment comment.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="observations">
+                      <xs:annotation>
+                        <xs:documentation>The set of mass observations and parameters from the mass spectrometer.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="precursor">
+                            <xs:annotation>
+                              <xs:documentation>The precursor mass.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:attribute name="mass" type="xs:double" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The precursor mass in Daltons.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="type" type="pcml:massType" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The massType of the precursor mass.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="charge" type="xs:int" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>An integer representing the charge of the precursor mass as presented.  [M]+ is 0, [M+H]+ is 1.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="fragmentList">
+                            <xs:annotation>
+                              <xs:documentation>The list of fragment ion masses.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element maxOccurs="unbounded" name="fragment">
+                                  <xs:complexType>
+                                    <xs:attribute name="id" type="xs:unsignedInt" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>An identifier for a single fragment ion mass</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="mass" type="xs:double" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The mass of a single fragment ion.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="intensity" type="xs:double" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The intensity of a single fragment ion.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="fragmentationMethod" type="xs:string"
+                                use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The fragmentation method (Ryan: Fill in some acceptable ones).</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="type" type="pcml:massType" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The massType of the fragment ion list.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="charge" type="xs:int" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>An integer representing the charge of the fragment ion list as presented.  [M]+ is 0, [M+H]+ is 1.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="intensityScale" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The fragment ion intensity metric.</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:enumeration value="relative">
+                                      <xs:annotation>
+                                        <xs:documentation>Relative intensity</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="absolute">
+                                      <xs:annotation>
+                                        <xs:documentation>Absolute intensity</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="hypothesis">
+                      <xs:annotation>
+                        <xs:documentation>The proteoform hypothesis to be tested against the data.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="sequence">
+                            <xs:annotation>
+                              <xs:documentation>The proteoform's sequence.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="UniProtID" type="xs:string" use="required">
+                                    <xs:annotation>
+                                      <xs:documentation>(Optional) The UniProt ID of the protein.</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:attribute>
+                                  <xs:attribute name="name" type="xs:string" use="required">
+                                    <xs:annotation>
+                                      <xs:documentation>(Optional) The protein name.</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="nTerminalModification" type="pcml:terminalModification"
+                            minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>An N-terminal modification.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="cTerminalModification" type="pcml:terminalModification"
+                            minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>A C-terminal modification.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="modificationList">
+                            <xs:annotation>
+                              <xs:documentation>The list of "well-annotated" post-translational modifications on the proteoform.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element maxOccurs="unbounded" name="modification">
+                                  <xs:annotation>
+                                    <xs:documentation>An individual modification.</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:attribute name="modificationSourceID" type="xs:string"
+                                      use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The ID of the modification source. (e.g., PSI-MOD).</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="modificationID" type="xs:int" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The numerical ID of the modification within the source. (e.g., 37)</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="locationIndex" type="xs:int" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The zero-based index of the modification on the sequence.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="customModificationList" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The list of "un-annotated" post-translational modifications on the proteoform.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element maxOccurs="unbounded" name="customModification">
+                                  <xs:annotation>
+                                    <xs:documentation>An individual unannotated modification.</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:attribute name="mass" type="xs:double" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The mass of the unannotated modification.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="locationIndex" type="xs:int" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The zero-based index of the modification on the sequence.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:int" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The id of the experiment within the experiment list.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:double" use="required">
+        <xs:annotation>
+          <xs:documentation>The PCML file version.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pcsDataSet xmlns="http://www.topdownproteomics.org/ms/pcsml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topdownproteomics.org/ms/pcsml http://www.topdownproteomics.org/ms/pcsml/xsd/pcsml.xsd" version="1.0">
+	<metadata>
+		<comment>This is a file with an example XML input format</comment>
+		<contact>
+			<guid>{B26B1373-C70B-423C-9689-D9622A35CF9F}</guid>
+			<name>William Pennington</name>
+			<organization>Higglesworth University</organization>
+			<address>12 Higglesworth Avenue, 12045, HI, USA</address>
+			<URL>http://www.higglesworth.edu/</URL>
+			<email>wpennington@higglesworth.edu</email>
+		</contact>
+		<instrument>
+			<manufacturer>Bruker</manufacturer>
+			<model>Solarix</model>
+			<precursorTolerance value="25" type="ppm"/>
+			<fragmentTolerance value="25" type="ppm"/>
+			<constantcalibrationOffset value="-3" type="ppm"/>
+		</instrument>
+		<modificationSourceList>
+			<modificationSource id="PSI-MOD" url="http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=MOD&amp;termId=MOD:{0:00000}"/>
+			<modificationSource id="UniCarbKB" url="http://www.unicarbkb.org/structure/{0}"/>
+		</modificationSourceList>
+		<sampleProcessing>
+			<fixedModificationList>
+				<fixedModification modificationSourceID="PSI-MOD" modificationID="98" aminoAcid="M"/>
+			</fixedModificationList>
+		</sampleProcessing>
+	</metadata>
+	<experimentList>
+		<experiment id="1">
+			<comment>This is an experiment on Ubiquitin</comment>
+			<observations>
+				<precursor mass="8559.616" type="monoisotopic" charge="0"/>
+				<fragmentList fragmentationMethod="CID" type="monoisotopic" charge="0" intensityScale="absolute">
+					<fragment id="1" mass="6527.4332" intensity="3345.2"/>
+					<fragment id="2" mass="4332.5521" intensity="3214.2"/>
+					<fragment id="3" mass="2167.2245" intensity="2254.2"/>
+				</fragmentList>
+			</observations>
+			<hypothesis>
+				<sequence UniProtID="P11332" name="ubiquitin">MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG</sequence>
+				<nTerminalModification modificationSourceID="PSI-MOD" modificationID="16" />
+				<modificationList>
+					<modification modificationSourceID="PSI-MOD" modificationID="58" locationIndex="1"/>
+					<modification modificationSourceID="PSI-MOD" modificationID="64" locationIndex="6"/>
+					<modification modificationSourceID="UniCarbKB" modificationID="3009" locationIndex="11"/>
+				</modificationList>
+				<customModificationList>
+					<customModification mass="168.34" locationIndex="89"/>
+				</customModificationList>
+			</hypothesis>
+		</experiment>
+		<experiment id="2">
+			<comment/>
+			<observations>
+				<precursor mass="11299.313" type="monoisotopic" charge="0"/>
+				<fragmentList fragmentationMethod="HCD" type="monoisotopic" charge="0" intensityScale="relative">
+				  <fragment id="1" mass="6527.4332" intensity="100"/>
+				  <fragment id="2" mass="4332.5521" intensity="57.3"/>
+				  <fragment id="3" mass="2167.2245" intensity="1.25"/>
+				</fragmentList>
+			</observations>
+			<hypothesis>
+				<sequence UniProtID="P62805" name="Histone H4">SGRGKGGKGLGKGGAKRHRKVLRDNIQGITKPAIRRLARRGGVKRISGLIYEETRGVLKVFLENVIRDAVTYTEHAKRKTVTAMDVVYALKRQGRTLYGFGG</sequence>
+				<cTerminalModification modificationSourceID="PSI-MOD" modificationID="117" />
+				<modificationList>
+					<modification modificationSourceID="PSI-MOD" modificationID="60" locationIndex="1"/>
+					<modification modificationSourceID="PSI-MOD" modificationID="64" locationIndex="5"/>
+					<modification modificationSourceID="PSI-MOD" modificationID="64" locationIndex="8"/>
+					<modification modificationSourceID="PSI-MOD" modificationID="64" locationIndex="12"/>
+					<modification modificationSourceID="PSI-MOD" modificationID="64" locationIndex="16"/>
+					<modification modificationSourceID="PSI-MOD" modificationID="84" locationIndex="20"/>					
+				</modificationList>
+			</hypothesis>
+		</experiment>
+	</experimentList>
+</pcsDataSet>
