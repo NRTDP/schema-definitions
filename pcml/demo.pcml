@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pcsDataSet xmlns="http://www.topdownproteomics.org/ms/pcsml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topdownproteomics.org/ms/pcsml http://www.topdownproteomics.org/ms/pcsml/xsd/pcsml.xsd" version="1.0">
+<pcsDataSet xmlns="http://www.topdownproteomics.org/ms/pcsml/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topdownproteomics.org/ms/pcsml http://www.topdownproteomics.org/ms/pcsml/xsd/pcsml.xsd" version="1.1">
 	<metadata>
 		<comment>This is a file with an example XML input format</comment>
 		<contact>
@@ -47,7 +47,7 @@
 					<modification modificationSourceID="UniCarbKB" modificationID="3009" locationIndex="11"/>
 				</modificationList>
 				<customModificationList>
-					<customModification mass="168.34" locationIndex="89"/>
+					<customModification monoisotopicMass="168.34" locationIndex="89"/>
 				</customModificationList>
 			</hypothesis>
 		</experiment>
@@ -72,6 +72,25 @@
 					<modification modificationSourceID="PSI-MOD" modificationID="64" locationIndex="16"/>
 					<modification modificationSourceID="PSI-MOD" modificationID="84" locationIndex="20"/>					
 				</modificationList>
+			</hypothesis>
+		</experiment>
+		<experiment id="3">
+			<comment/>
+			<observations>
+				<precursor mass="11299.313" type="monoisotopic" charge="0"/>
+				<fragmentList fragmentationMethod="HCD" type="monoisotopic" charge="0" intensityScale="relative">
+				  <fragment id="1" mass="6527.4332" intensity="100"/>
+				  <fragment id="2" mass="4332.5521" intensity="57.3"/>
+				  <fragment id="3" mass="2167.2245" intensity="1.25"/>
+				</fragmentList>
+			</observations>
+			<hypothesis>
+				<sequence UniProtID="P62805" name="Histone H4">SGRGKGGKGLGKGGAKRHRKVLRDNIQGITKPAIRRLARRGGVKRISGLIYEETRGVLKVFLENVIRDAVTYTEHAKRKTVTAMDVVYALKRQGRTLYGFGG</sequence>
+				<nTerminalCustomModification name="TestN" monoisotopicMass="87.45" color="red" />
+				<cTerminalCustomModification name="TestC" monoisotopicMass="112.51" averageMass="113.12" color="blue" />
+				<customModificationList>
+					<customModification name="Test45" monoisotopicMass="15.996" locationIndex="45" />
+				</customModificationList>
 			</hypothesis>
 		</experiment>
 	</experimentList>
